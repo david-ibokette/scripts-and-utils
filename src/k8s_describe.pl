@@ -47,7 +47,7 @@ sub getRunningPods {
     my $cmd = "kubectl get pods $envArgs | cut -d ' ' -f 1 $grepCmdWithPipe";
 
     chomp(my @kpods = `$cmd`);
-    $? != 0 and die "Could not run kubectl - need to run avp?";
+    $? != 0 and die "Could not run kubectl - need to run avp? bad grep?";
 
     return @kpods;
 }
@@ -87,6 +87,10 @@ GetOptions(
     "n=s" => \$env,
     "g=s" => \$grepArgs,
 ) or die $USAGE;
+
+if (!$grepArgs && @ARGV > 0) {
+    $grepArgs = shift(@ARGV);
+}
 
 doAvpIfNeeded();
 my $pod = getPod($env, $grepArgs);
