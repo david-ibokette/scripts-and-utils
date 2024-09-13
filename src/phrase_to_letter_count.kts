@@ -1,4 +1,4 @@
-val msg = "waltham community kids christmas party dec 16th 3-5 @ Crossroads Church"
+val msg = "waltham community block party sat 12-3 @ the park"
 val letterToCountMap = mutableMapOf<Char, Int>()
 msg
 .filterNot { it.isWhitespace() }
