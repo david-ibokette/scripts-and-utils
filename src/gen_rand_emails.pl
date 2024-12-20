@@ -1,6 +1,7 @@
 #!/usr/bin/perl -w
 use feature ":5.10";
 use warnings FATAL => 'all';
+use POSIX qw(strftime);
 use Email::Address;
 use Getopt::Long;
 
@@ -10,15 +11,19 @@ use Getopt::Long;
 
 # gen_rand_emails --infile ~/bsi_all_20241213.csv --outfile ~/bsi_20241219-01.csv --lines 2001-3000 --force
 
-my @chars = ("A".."Z", "a".."z", "0".."9");
+my $timestampString = strftime("%Y%m%dT%H%M%S", localtime(time()));
+my $lineProcessedCount = 0;
+my $tagLength = 4;
+my $emailPrefix = "pextest_";
+my $emailDomain = "example.net";
 
 sub getNewLine {
 	chomp(my $line = shift(@_));
 	my @addrs = Email::Address->parse($line);
 	foreach my $email (@addrs) {
-		my $string = "";
-		$string .= $chars[rand @chars] for 1..16;
-		$line =~ s/$email/pextest_$string\@example.net/g;
+		my $rowIdentifier = "";
+		$rowIdentifier .= sprintf("%s_%0${tagLength}d", $timestampString, ++$lineProcessedCount);
+		$line =~ s/$email/${emailPrefix}${rowIdentifier}\@${emailDomain}/g;
 	}
 	return $line;
 }
@@ -31,6 +36,8 @@ GetOptions(
     "infile=s" => \$infile,
     "outfile=s" => \$outfile,
     "lines=s" => \$lineString,
+	"prefix=s" => \$emailPrefix,
+	"domain=s" => \$emailDomain,
     "force" => \$force
 ) or die $USAGE;
 
@@ -42,6 +49,7 @@ if (! -r $infile) {
 	die "$infile must be readable";
 }
 
+$outfile =~ s/%ts%/$timestampString/g;
 if (!$force && -f $outfile) {
 	die "$outfile already exists - cannot write to it";
 }
@@ -52,6 +60,7 @@ my $endLine = 0;
 if ($lineString =~ m/^(\d+)-(\d+)$/) {
 	$startLine = $1;
 	$endLine = $2;
+	$tagLength = length($endLine);
 }
 
 if ($startLine <= 0 || $endLine <= 0) {
@@ -70,3 +79,4 @@ while (<FH>) {
 		say OFH $line;
 	}
 }
+say "Done - outfile is $outfile";
