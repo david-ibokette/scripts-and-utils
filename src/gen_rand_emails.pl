@@ -1,6 +1,7 @@
 #!/usr/bin/perl -w
 use feature ":5.10";
 use warnings FATAL => 'all';
+use strict;
 use POSIX qw(strftime);
 use Email::Address;
 use Getopt::Long;
@@ -28,10 +29,13 @@ sub getNewLine {
 	return $line;
 }
 
-(my $exeName = $0) =~ s/^(?:.+\/)([^\/]+)$/$1/;
-my $USAGE = "usage: $exeName --infile <file> --outfile <outfile> --lines <lines> [--force]";
+(my $exeName = $0) =~ s/^(?:.+\/)([^\/]+?)(?:.pl)?$/$1/;
+my $USAGE = "usage: $exeName --infile <file> --outfile <outfile> --lines <lines> [--force --prefix <prefix> --domain <domain>]";
 
 my $force = 0;
+my $infile;
+my $outfile;
+my $lineString;
 GetOptions(
     "infile=s" => \$infile,
     "outfile=s" => \$outfile,
@@ -75,7 +79,7 @@ while (<FH>) {
 	++$lineNumber;
 
 	if ($lineNumber == 0 || ($lineNumber >= $startLine && $lineNumber <= $endLine)) {
-		$line = getNewLine($_);
+		my $line = getNewLine($_);
 		say OFH $line;
 	}
 }
