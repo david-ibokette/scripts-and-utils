@@ -14,6 +14,7 @@ sub fixHeader {
 	$line =~ s/[&\/# ]/_/g;
 	$line = lc($line);
 	$line =~ s/_{2,}/_/g;
+	$line =~ s/_+,/,/g;
 	$line =~ s/_+$//g;
 	return $line;
 }
