@@ -22,7 +22,7 @@ sub doAvpIfNeeded {
 }
 
 sub doAVP {
-    if (1 == 1) {
+    if (0 == 1) {
         # Keep here until I can figure out how to get AVP running from within
         say "Need to run AVP!!!";
         exit 1;
@@ -92,7 +92,7 @@ if (!$grepArgs && @ARGV > 0) {
     $grepArgs = shift(@ARGV);
 }
 
-doAvpIfNeeded();
+# doAvpIfNeeded();
 my $pod = getPod($env, $grepArgs);
 
 say "vvvvvvvvvvvv Describe POD for vvvvvvvvvvvvvvvv";

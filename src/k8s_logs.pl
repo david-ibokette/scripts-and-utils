@@ -92,7 +92,7 @@ if (!$grepArgs && @ARGV > 0) {
     $grepArgs = shift(@ARGV);
 }
 
-doAvpIfNeeded();
+# doAvpIfNeeded();
 my $pod = getPod($env, $grepArgs);
 
 say "vvvvvvvvvvvv Outputting LOG for vvvvvvvvvvvvvvvv";
