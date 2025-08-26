@@ -3,6 +3,12 @@ use strict;
 use feature ":5.10";
 use warnings FATAL => 'all';
 
+############################################################################
+############################################################################
+## NOTE: Probably totally unneeded because of the extractors added!!!!
+############################################################################
+############################################################################
+
 # Usage: cat a.txt | where_to_values.pl
 #
 # Where the contents of a.txt is the line below (obtained from DataGrip's "Where clause" extractor). The output of the script will be the
