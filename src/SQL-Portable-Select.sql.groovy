@@ -34,6 +34,7 @@ def record(columns, dataRow) {
         OUT.append(NEWLINE)
         OUT.append(KW_FROM)
         OUT.append(NEWLINE)
+        begin = false
     }
     else {
         OUT.append(",").append(NEWLINE)
