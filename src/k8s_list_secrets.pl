@@ -90,7 +90,7 @@ if (!$grepArgs && @ARGV > 0) {
     $grepArgs = shift(@ARGV);
 }
 
-doAvpIfNeeded();
+# doAvpIfNeeded();
 my $secret = getSecret($grepArgs);
 
 my $command = "kubectl get secret $secret -n $env -oyaml | decode_secret_yaml";
