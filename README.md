@@ -1,7 +1,7 @@
 # scripts-and-utils
 Just random scripts and utils I suppose
 
-# Datagrip Result Extractors
-Put the file here:
+## Datagrip Result Extractors
 
-![img.png](images/extractors_directory.png)
+[See My Custom Extractors
+](src/extractors/README.md)
