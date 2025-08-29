@@ -1,7 +1,4 @@
-# scripts-and-utils
-Just random scripts and utils I suppose
-
 # Datagrip Result Extractors
-Put the file here:
+Put the extractors in the following directory:
 
 ![img.png](../../images/extractors_directory.png)
