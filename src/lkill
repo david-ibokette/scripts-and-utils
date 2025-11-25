@@ -5,6 +5,7 @@ use Getopt::Long;
 # Global variables
 my $port;
 my $verbose = 0;
+my $force = 0;
 
 main();
 
@@ -13,6 +14,7 @@ sub main {
     GetOptions(
         'port=i' => \$port,
         'verbose' => \$verbose,
+        'force' => \$force,
         'help' => \&show_help
     ) or die "Error in command line arguments\n";
 
@@ -45,16 +47,20 @@ sub main {
         # Get process info for confirmation
         my $process_info = get_process_info($pid);
         print "Process details: $process_info\n" if $process_info;
-        
-        # Ask user for confirmation
-        print "Do you want to kill this process? (y/N): ";
-        my $response = <STDIN>;
-        chomp $response;
-        
-        if ($response =~ /^[yY](?:es)?$/) {
+    
+        if ($force) {
             kill_process($pid);
         } else {
-            print "Process not killed.\n";
+            # Ask user for confirmation
+            print "Do you want to kill this process? (y/N): ";
+            my $response = <STDIN>;
+            chomp $response;
+        
+            if ($response =~ /^[yY](?:es)?$/) {
+                kill_process($pid);
+            } else {
+                print "Process not killed.\n";
+            }
         }
     } else {
         print "No process found listening on port $port\n";
@@ -170,6 +176,7 @@ Arguments:
 
 Options:
     --port <number>    Port number to search for (alternative to positional argument)
+    --force           Kill process without confirmation
     --verbose         Enable verbose output
     --help            Show this help message
 
